@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness Form</title>
+</head>
+<body>
+    <h1>Fitness Form</h1>
+    <form method="POST" action="{{ url_for('fitness') }}">
+       {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="{{ form.reps.id }}">Reps:</label>
+            {{ form.reps(class="form-control", id=form.reps.id) }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.running_distance.id }}">Running Distance (in miles):</label>
+            {{ form.running_distance(class="form-control", id=form.running_distance.id) }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.jumping.id }}">Jumping (in inches):</label>
+            {{ form.jumping(class="form-control", id=form.jumping.id) }}
+        </div>
+
+
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Calculator</title>
+</head>
+<body>
+    <h1>BMI Calculator</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <label for="{{ form.height.id }}">Enter your height in cm:</label>
+        {{ form.height(id=form.height.id, required=true) }}
+        <br>
+        <label for="{{ form.weight.id }}">Enter your weight in kg:</label>
+        {{ form.weight(id=form.weight.id, required=true) }}
+        <br>
+        <button type="submit">Calculate BMI</button>
+    </form>
+    {% if bmi %}
+        <h2>Your BMI: {{ bmi }}</h2>
+    {% endif %}
+</body>
+</html>

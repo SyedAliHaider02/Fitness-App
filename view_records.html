@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Fitness Records</title>
+</head>
+<body> 
+    {% set target_reps = form.set.data %}
+    {% set target_running = form.set_running_distance.data %}
+    {% set target_jumping = form.set_jumping.data %}
+    <h1>Fitness Records</h1>
+    <ul>
+        {% for record in records %}
+            <li>
+                Date: {{ record.date }}<br>
+                Reps: {{ record.reps }}<br>
+                Running Distance: {{ record.running_distance }} miles<br>
+                Jumping: {{ record.jumping }} inches
+                
+                
+                {% if target_reps is not none and target_running is not none and target_jumping is not none %}
+                    {% if record.reps > target_reps and record.running_distance > target_running and record.jumping > target_jumping %}
+                        <p>Target Status: Completed</p>
+                    {% else %}
+                    <p>Target Status: Not Completed</p>
+                    {% endif %}
+                {% endif %}
+                
+                {% set points = 0 %}
+
+                {% if target_reps is not none and target_reps != '' and target_reps != 0 and target_reps < record.reps %}
+                    {% set points = points + 1 %}
+                {% endif %}
+
+                {% if target_running is not none and target_running != '' and target_running != 0 and target_running < record.running_distance %}
+                    {% set points = points + 1 %}
+                {% endif %}
+
+                {% if target_jumping is not none and target_jumping != '' and target_jumping != 0 and target_jumping < record.jumping %}
+                    {% set points = points + 1 %}
+                {% endif %}
+
+                <p>Points:{{ points }}</p>
+
+                {% if points==1 %}
+                  <p>Remarks: Only one task Completed </p>
+                {% endif %}
+                {% if points==2 %}
+                  <p>Remarks: Only two task Completed </p>
+                {% endif %}
+                {% if points==3 %}
+                  <p>Remarks: Nice !! All task completed </p>
+                {% endif %}
+
+                <form method="POST" action="/delete_record/{{ record.id }}">
+                    <button type="submit">Delete</button>
+                </form>
+            
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <label for="set">Enter Your Target Reps:</label>
+        {{ form.set(placeholder="Enter your target reps") }}
+
+        <label for="set_running_distance">Enter Your Target running distance:</label>
+        {{ form.set_running_distance(placeholder="Enter your target running distance") }}
+
+        <label for="set_jumping.">Enter Your Target jumping heights:</label>
+        {{ form.set_jumping(placeholder="Enter your target jumping height") }}
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Display validation errors if there are any -->
+    {% if form.set.errors %}
+        <div class="alert alert-danger">
+            {% for error in form.set.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    Target Reps: {{ form.set.data }}
+    Target Running Distance: {{ form.set_running_distance.data }}
+    Target Jumping Height: {{ form.set_jumping.data }}
+    
+    <a href="/avg_records">Average Record</a>
+</body>
+</html>

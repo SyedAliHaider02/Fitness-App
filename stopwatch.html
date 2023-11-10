@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stopwatch</title>
+</head>
+<body>
+    <h1>Stopwatch</h1>
+    <div id="stopwatch">0:00.0</div>
+    <button id="startStop" onclick="startStop()">Start</button>
+    <button id="reset" onclick="reset()">Reset</button>
+    <script>
+        var running = 0;
+        var time = 0;
+        function startStop() {
+            if (running == 0) {
+                running = 1;
+                increment();
+                document.getElementById("startStop").innerHTML = "Stop";
+            } else {
+                running = 0;
+                document.getElementById("startStop").innerHTML = "Start";
+            }
+        }
+        function reset() {
+            running = 0;
+            document.getElementById("startStop").innerHTML = "Start";
+            time = 0;
+            document.getElementById("stopwatch").innerHTML = "0:00.0";
+        }
+        function increment() {
+            if (running == 1) {
+                setTimeout(function() {
+                    time += 100;
+                    var minutes = Math.floor((time / 60000) % 60);
+                    var seconds = Math.floor((time / 1000) % 60);
+                    var tenths = Math.floor((time / 100) % 10);
+                    document.getElementById("stopwatch").innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + tenths;
+                    increment();
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
